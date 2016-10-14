@@ -171,7 +171,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return 2;
+  return (~(~x | ~y));
 }
 /* 
  * getByte - Extract byte n from word x
@@ -182,7 +182,7 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-  return 2;
+  return (0xFF & (x >> (n << 3)));
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
@@ -193,7 +193,7 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  return 2;
+  return (x >> n) ^ (((x & (1 << 31)) >> y) << 1);
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -203,7 +203,43 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+ int count = 0;
+ int mask = 0x0f;
+ 
+ count = count + x & mask;
+ count = count + (x >> 1 & count);
+ count = count + (x >> 2 & count);
+ count = count + (x >> 3 & count);
+ count = count + (x >> 4 & count);
+ count = count + (x >> 5 & count);
+ count = count + (x >> 6 & count);
+ count = count + (x >> 7 & count);
+ count = count + (x >> 8 & count);
+ count = count + (x >> 9 & count);
+ count = count + (x >> 10 & count);
+ count = count + (x >> 11 & count);
+ count = count + (x >> 12 & count);
+ count = count + (x >> 13 & count);
+ count = count + (x >> 14 & count);
+ count = count + (x >> 15 & count);
+ count = count + (x >> 16 & count);
+ count = count + (x >> 17 & count);
+ count = count + (x >> 18 & count);
+ count = count + (x >> 19 & count);
+ count = count + (x >> 20 & count);
+ count = count + (x >> 21 & count);
+ count = count + (x >> 22 & count);
+ count = count + (x >> 23 & count);
+ count = count + (x >> 24 & count);
+ count = count + (x >> 25 & count);
+ count = count + (x >> 26 & count);
+ count = count + (x >> 27 & count);
+ count = count + (x >> 28 & count);
+ count = count + (x >> 29 & count);
+ count = count + (x >> 30 & count);
+ count = count + (x >> 31 & count);
+ count = count + (x >> 32 & count);
+ return( count );
 }
 /* 
  * bang - Compute !x without using !
@@ -213,7 +249,8 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+ int negation = ~x + 1;
+ return((((x >> 31) & 0x01) | ((negative_x >> 31) & 0x01)) ^ 0x01);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -222,7 +259,7 @@ int bang(int x) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return (0x80 << 24);
 }
 /* 
  * fitsBits - return 1 if x can be represented as an 
