@@ -271,7 +271,9 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+ int numShift = ~n + 33;
+ int test = ( x << numShift ) >> numShift;
+ return 2;
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
