@@ -284,7 +284,7 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+    return (x >> n) ^ (((x & (1 << 31)) >> y) << 1);
 }
 /* 
  * negate - return -x 
