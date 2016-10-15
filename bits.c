@@ -296,6 +296,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
+  ~x + 1;
   return 2;
 }
 /* 
@@ -306,7 +307,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return 2;
+  return !((x >> 31) | !x);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -316,6 +317,7 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
+  x - y 
   return 2;
 }
 /*
