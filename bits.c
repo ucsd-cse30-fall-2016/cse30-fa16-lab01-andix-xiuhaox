@@ -203,43 +203,42 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
- int count = 0;
- int mask = 0x0f;
- 
- count = count + x & mask;
- count = count + (x >> 1 & count);
- count = count + (x >> 2 & count);
- count = count + (x >> 3 & count);
- count = count + (x >> 4 & count);
- count = count + (x >> 5 & count);
- count = count + (x >> 6 & count);
- count = count + (x >> 7 & count);
- count = count + (x >> 8 & count);
- count = count + (x >> 9 & count);
- count = count + (x >> 10 & count);
- count = count + (x >> 11 & count);
- count = count + (x >> 12 & count);
- count = count + (x >> 13 & count);
- count = count + (x >> 14 & count);
- count = count + (x >> 15 & count);
- count = count + (x >> 16 & count);
- count = count + (x >> 17 & count);
- count = count + (x >> 18 & count);
- count = count + (x >> 19 & count);
- count = count + (x >> 20 & count);
- count = count + (x >> 21 & count);
- count = count + (x >> 22 & count);
- count = count + (x >> 23 & count);
- count = count + (x >> 24 & count);
- count = count + (x >> 25 & count);
- count = count + (x >> 26 & count);
- count = count + (x >> 27 & count);
- count = count + (x >> 28 & count);
- count = count + (x >> 29 & count);
- count = count + (x >> 30 & count);
- count = count + (x >> 31 & count);
- count = count + (x >> 32 & count);
- return( count );
+        int sum = 0;
+        int help = 1;
+
+        sum = sum + (x & help);
+        sum = sum + (x >> 1 & help);
+        sum = sum + (x >> 2 & help);
+        sum = sum + (x >> 3 & help);
+        sum = sum + (x >> 4 & help);
+        sum = sum + (x >> 5 & help);
+        sum = sum + (x >> 6 & help);
+        sum = sum + (x >> 7 & help);
+        sum = sum + (x >> 8 & help);
+        sum = sum + (x >> 9 & help);
+        sum = sum + (x >> 10 & help);
+        sum = sum + (x >> 11 & help);
+        sum = sum + (x >> 12 & help);
+        sum = sum + (x >> 13 & help);
+        sum = sum + (x >> 14 & help);
+        sum = sum + (x >> 15 & help);
+        sum = sum + (x >> 16 & help);
+        sum = sum + (x >> 17 & help);
+        sum = sum + (x >> 18 & help);
+        sum = sum + (x >> 19 & help);
+        sum = sum + (x >> 20 & help);
+        sum = sum + (x >> 21 & help);
+        sum = sum + (x >> 22 & help);
+        sum = sum + (x >> 23 & help);
+        sum = sum + (x >> 24 & help);
+        sum = sum + (x >> 25 & help);
+        sum = sum + (x >> 26 & help);
+        sum = sum + (x >> 27 & help);
+        sum = sum + (x >> 28 & help);
+        sum = sum + (x >> 29 & help);
+        sum = sum + (x >> 30 & help);
+        sum = sum + (x >> 31 & help);
+        return(sum);
 }
 /* 
  * bang - Compute !x without using !
@@ -271,9 +270,8 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
- int numShift = ~n + 33;
- int test = ( x << numShift ) >> numShift;
- return 2;
+  int mask = x >> 31;
+  return !(((~x & mask) + (x & ~mask)) >> (n + ~0));
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
@@ -317,8 +315,12 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  x - y 
-  return 2;
+  int x_sign=(x>>31) & 0x01;				//declaration
+ int y_sign=(y>>31) & 0x01;				//declaration
+ int checksign = x_sign ^ y_sign;		//check same sign(0) or differ sign(1)
+ int check1 = checksign & x_sign;		//when differ sign, x_sign is 1, alway x is less
+ int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);		//when same sign and x is less or equal, x-y-1's sign bit is 1
+ return (check0 | check1);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
