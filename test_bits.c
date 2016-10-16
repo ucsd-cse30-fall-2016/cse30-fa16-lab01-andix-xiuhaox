@@ -167,6 +167,92 @@ assert(bitAnd(9,8)==test_bitAnd(9,8));
 assert(bitAnd(0,6)==test_bitAnd(0,6));
 assert(bitAnd(255,254)==test_bitAnd(255,254));
 printf("Passed Test Cases for bitAnd\n");
+  
+//Test Cases for getByte 
+
+assert(getByte(0x12345678,1)==test_getByte(0x12345678,1)); 
+assert(getByte(0x12345678,0)==test_getByte(0x12345678,0));
+assert(getByte(1000000,2)==test_getByte(1000000,2));
+assert(getByte(1000000,3)==test_getByte(1000000,3));
+printf("Passed Test Cases for getByte\n");
+  
+//Test Cases for logicalShift 
+
+assert(logicalShift(0x87654321,4)==test_logicalShift(0x87654321,4)); 
+assert(logicalShift(0x87654321,8)==test_logicalShift(0x87654321,8));
+assert(logicalShift(0x3213143,4)==test_logicalShift(0x3213143,4));
+assert(logicalShift(0x3213143,16)==test_logicalShift(0x3213143,16));
+printf("Passed Test Cases for logicalShift\n");
+  
+//Test Cases for bitCount 
+
+assert(bitCount(5)==test_bitCount(5)); 
+assert(bitCount(11)==test_bitCount(11));
+assert(bitCount(21)==test_bitCount(21));
+assert(bitCount(7)==test_bitCount(7));
+printf("Passed Test Cases for bitCount\n");
+  
+//Test Cases for bang 
+
+assert(bang(3)==test_bang(3)); 
+assert(bang(0)==test_bang(0));
+assert(bang(5)==test_bang(5));
+assert(bang(11)==test_bang(11));
+printf("Passed Test Cases for bang\n");
+  
+//Test Cases for tmin 
+
+assert(tmin()==test_tmin()); 
+printf("Passed Test Cases for tmin\n");
+  
+//Test Cases for fitsBits 
+
+assert(fitsBits(5,3)==test_fitsBits(5,3)); 
+assert(fitsBits(-4,3)==test_fitsBits(-4,3));
+assert(fitsBits(7,2)==test_fitsBits(7,2));
+assert(fitsBits(11,4)==test_fitsBits(11,4));
+printf("Passed Test Cases for fitsBits\n");
+  
+//Test Cases for divpwr2 
+
+assert(divpwr2(15,1)==test_divpwr2(15,1)); 
+assert(divpwr2(-33,4)==test_divpwr2(-33,4));
+assert(divpwr2(7,2)==test_divpwr2(7,2));
+assert(divpwr2(11,2)==test_divpwr2(11,2));
+printf("Passed Test Cases for divpwr2\n");
+  
+//Test Cases for negate 
+
+assert(negate(15)==test_negate(15)); 
+assert(negate(3)==test_negate(3));
+assert(negate(7)==test_negate(7));
+printf("Passed Test Cases for negate\n");
+  
+//Test Cases for isPositive 
+
+assert(isPositive(15)==test_isPositive(15)); 
+assert(isPositive(-33)==test_isPositive(-33));
+assert(isPositive(7)==test_isPositive(7));
+assert(isPositive(0)==test_isPositive(0));
+printf("Passed Test Cases for isPositive\n");
+  
+//Test Cases for isLessOrEqual 
+
+assert(isLessOrEqual(15,20)==test_isLessOrEqual(15,20)); 
+assert(isLessOrEqual(-33,2)==test_isLessOrEqual(-33,2));
+assert(isLessOrEqual(7,1)==test_isLessOrEqual(7,1));
+assert(isLessOrEqual(2,-10)==test_isLessOrEqual(2,-10));
+printf("Passed Test Cases for isLessOrEqual\n");
+  
+//Test Cases for ilog2 
+
+assert(ilog2(16)==test_ilog2(16)); 
+assert(ilog2(4)==test_ilog2(4));
+assert(ilog2(7)==test_ilog2(7));
+assert(ilog2(2)==test_ilog2(2));
+printf("Passed Test Cases for ilog2\n");
+  
+
 
 return 0;
 
