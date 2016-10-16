@@ -296,6 +296,7 @@ isLessOrEqual_ARM:
     AND r12, r11, 0x01
     AND r13, r8, r12
     ORR r14, r13, r7
+    MOV r0, r14
     pop {r4-r11, ip, lr}
 
     @ ARM equivalent of return
