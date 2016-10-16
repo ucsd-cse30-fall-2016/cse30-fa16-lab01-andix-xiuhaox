@@ -329,7 +329,17 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-  return 2;
+ int bitsNumber=0;  
+        //binary search process  
+        bitsNumber=(!!(x>>16))<<4;  
+        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+8)))<<3);  
+        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+4)))<<2);  
+        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+2)))<<1);  
+        bitsNumber=bitsNumber+(!!(x>>(bitsNumber+1)));  
+        //for non zero bitsNumber, it should add 0  
+        //for zero bitsNumber, it should subtract 1  
+        bitsNumber=bitsNumber+(!!bitsNumber)+(~0)+(!(1^x));  
+        return bitsNumber;  
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
