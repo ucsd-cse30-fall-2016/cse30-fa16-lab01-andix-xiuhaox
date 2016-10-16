@@ -249,7 +249,7 @@ int bitCount(int x) {
  */
 int bang(int x) {
  int negation = ~x + 1;
- return((((x >> 31) & 0x01) | ((negative >> 31) & 0x01)) ^ 0x01);
+ return((((x >> 31) & 0x01) | ((negation >> 31) & 0x01)) ^ 0x01);
 }
 /* 
  * tmin - return minimum two's complement integer 
