@@ -45,7 +45,7 @@ getByte_ARM:
     @ YOUR CODE GOES HERE 
     @-----------------------
     
-    LSL r0, r0, 3
+    LSL r0, r0, #3
     LSR r1, r1, r0
     AND r0, r0, oxFF
     
@@ -68,6 +68,238 @@ getByte_ARM:
 @ negate_ARM
 @ isLessOrEqual_ARM
 
+.global logicalShift_ARM
+.func logicalShift_ARM, logicalShift_ARM
+.type logicalShift_ARM, %function
+
+logicalShift_ARM:
+    @ Save caller's registers on the stack
+    push {r4-r11, ip, lr}
+    
+    LSR r2, r0, r1
+    LSL r3, #1, #31
+    AND r4, r0, r3
+    LSR r5, r4, r1
+    LSL r6, r5, #1
+    EOR r0, r2, r6
+    
+    pop {r4-r11, ip, lr}
+
+    @ ARM equivalent of return
+    BX lr
+.endfunc
+
+.global bitCount_ARM
+.func bitCount_ARM, bitCount_ARM
+.type bitCount_ARM, %function
+
+bitCount_ARM:
+    @ Save caller's registers on the stack
+    push {r4-r11, ip, lr}
+    AND r1, r0, #1
+    ADD r2, r1, #0
+    
+    LSR r3, r0, #1
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #2
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #3
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #4
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #5
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #6
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #7
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #8
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #9
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #10
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #11
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #12
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #13
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #14
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #15
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #16
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #17
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #18
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #19
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #20
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #21
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #22
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #23
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #24
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #25
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #26
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #27
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #28
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #29
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #30
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    LSR r3, r0, #31
+    AND r4, r3, #1
+    ADD r2, r2, r4
+    
+    MOV r0, r2
+    
+    pop {r4-r11, ip, lr}
+
+    @ ARM equivalent of return
+    BX lr
+.endfunc
+
+.global fitsBits_ARM
+.func fitsBits_ARM, fitsBits_ARM
+.type fitsBits_ARM, %function
+
+fitsBits_ARM:
+    @ Save caller's registers on the stack
+    push {r4-r11, ip, lr}
+    LSR r2, r0, #31
+    MVN r3, r0
+    AND r4, r2, r3
+    MVN r5, r2
+    AND r6, r0, r5
+    ADD r7, r6, r4
+    MVN r8, #0
+    ADD r9, r1, r8
+    MVN, r0, r9,
+    
+    
+    
+    pop {r4-r11, ip, lr}
+
+    @ ARM equivalent of return
+    BX lr
+.endfunc
+
+.global negate_ARM
+.func negate_ARM, negate_ARM
+.type negate_ARM, %function
+
+negate_ARM:
+    @ Save caller's registers on the stack
+    push {r4-r11, ip, lr}
+    NEG r0, r0
+    pop {r4-r11, ip, lr}
+
+    @ ARM equivalent of return
+    BX lr
+.endfunc
+
+.global negate_ARM
+.func negate_ARM, negate_ARM
+.type negate_ARM, %function
+
+isLessOrEqual_ARM:
+    @ Save caller's registers on the stack
+    push {r4-r11, ip, lr}
+    int x_sign=(x>>31) & 0x01;				//declaration
+    int y_sign=(y>>31) & 0x01;				//declaration
+    int checksign = x_sign ^ y_sign;		//check same sign(0) or differ sign(1)
+    int check1 = checksign & x_sign;		//when differ sign, x_sign is 1, alway x is less
+    int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);		//when same sign and x is less or equal, x-y-1's sign bit is 1
+    return (check0 | check1);
+    LSR r3, r0, #31
+    AND r2, r3, 0x01
+    LSR r4, r1, #31
+    AND r5, r4, 0x01
+    EOR r6, r2, r5
+    AND r7, r6, r2
+    MVN r8, r6
+    MVN r9, r1
+    ADD r10, r0, r9
+    LSR r11, r10, #31
+    AND r12, r11, 0x01
+    AND r13, r8, r12
+    ORR r14, r13, r7
+    pop {r4-r11, ip, lr}
+
+    @ ARM equivalent of return
+    BX lr
+.endfunc
 
 .end
-
