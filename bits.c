@@ -294,8 +294,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  ~x + 1;
-  return 2;
+  return ~x + 1;
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
