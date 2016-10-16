@@ -193,7 +193,7 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  return (x >> n) ^ (((x & (1 << 31)) >> y) << 1);
+  return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -249,7 +249,7 @@ int bitCount(int x) {
  */
 int bang(int x) {
  int negation = ~x + 1;
- return((((x >> 31) & 0x01) | ((negative_x >> 31) & 0x01)) ^ 0x01);
+ return((((x >> 31) & 0x01) | ((negative >> 31) & 0x01)) ^ 0x01);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -282,7 +282,7 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return (x >> n) ^ (((x & (1 << 31)) >> y) << 1);
+    return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
 }
 /* 
  * negate - return -x 
