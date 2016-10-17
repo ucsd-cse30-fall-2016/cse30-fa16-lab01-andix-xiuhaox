@@ -78,7 +78,8 @@ logicalShift_ARM:
     
     @r0 = x, r1 = n
     ASR r2, r0, r1
-    MOV r3, 0x80000000
+    MOV r3, #1
+    LSL r3, r3, #31 
     AND r4, r0, r3
     ASR r5, r4, r1
     LSL r6, r5, #1
@@ -208,8 +209,8 @@ isLessOrEqual_ARM:
     EOR r6, r2, r5
     @r7=check1
     AND r7, r6, r2
-    @MVN r8, r6
     
+    @!checksign
     NEG r3, r6
     ADD r3, r3, #1
     ASR r4, r6, #31
@@ -219,6 +220,7 @@ isLessOrEqual_ARM:
     ORR r3, r3, r4
     EOR r8, r3, 0x01
     
+    @get check0
     MVN r9, r1
     ADD r10, r0, r9
     ASR r11, r10, #31
