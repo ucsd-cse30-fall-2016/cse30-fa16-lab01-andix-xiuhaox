@@ -277,12 +277,6 @@ negate_ARM:
 isLessOrEqual_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    int x_sign=(x>>31) & 0x01;				//declaration
-    int y_sign=(y>>31) & 0x01;				//declaration
-    int checksign = x_sign ^ y_sign;		//check same sign(0) or differ sign(1)
-    int check1 = checksign & x_sign;		//when differ sign, x_sign is 1, alway x is less
-    int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);		//when same sign and x is less or equal, x-y-1's sign bit is 1
-    return (check0 | check1);
     LSR r3, r0, #31
     AND r2, r3, 0x01
     LSR r4, r1, #31
