@@ -16,8 +16,8 @@ bitAnd_ARM:
     
     MVN r0, r0
     MVN r1, r1
-    ORR r0, r0, r1
-    MVN r0, r0
+    ORR r2, r0, r1
+    MVN r0, r2
     
     @ (your code)
 
