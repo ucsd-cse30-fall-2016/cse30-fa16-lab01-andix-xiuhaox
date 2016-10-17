@@ -160,8 +160,15 @@ fitsBits_ARM:
     MVN r8, #0
     ADD r9, r1, r8
     ASR r7, r7, r9
-    MVN r0, r7
     
+    @negate
+    NEG r2, r7
+    ASR r10, r7, #31
+    AND r10, r10, 0x01
+    ASR r11, r2, #31
+    AND r11, r11, 0x01
+    ORR r10, r10, r11
+    EOR r0, r10, 0x01
     
     
     pop {r4-r11, ip, lr}
