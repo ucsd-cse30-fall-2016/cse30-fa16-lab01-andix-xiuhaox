@@ -76,6 +76,7 @@ logicalShift_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
     
+    @r0 = x, r1 = n
     ASR r2, r0, r1
     MOV r3, 0x80000000
     AND r4, r0, r3
@@ -133,7 +134,7 @@ bitCount_ARM:
     
     ASR r15, r6, #8
     AND r15, r6, r15
-    MOV r14, #0x3F
+    MOV r14, 0x3F
     AND r0, r15, r14
     
     pop {r4-r11, ip, lr}
@@ -149,6 +150,7 @@ bitCount_ARM:
 fitsBits_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
+    @r2 = mask
     ASR r2, r0, #31
     MVN r3, r0
     AND r4, r2, r3
@@ -157,7 +159,8 @@ fitsBits_ARM:
     ADD r7, r6, r4
     MVN r8, #0
     ADD r9, r1, r8
-    MVN r0, r9
+    ASR r7, r7, r9
+    MVN r0, r7
     
     
     
@@ -174,7 +177,8 @@ fitsBits_ARM:
 negate_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    NEG r0, r0
+    MVN r0, r0
+    ADD r0, r0, #1
     pop {r4-r11, ip, lr}
 
     @ ARM equivalent of return
