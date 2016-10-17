@@ -184,8 +184,7 @@ fitsBits_ARM:
 negate_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    MVN r0, r0
-    ADD r0, r0, #1
+    NEG r0, r0
     pop {r4-r11, ip, lr}
 
     @ ARM equivalent of return
