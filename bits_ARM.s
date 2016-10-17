@@ -198,13 +198,23 @@ negate_ARM:
 isLessOrEqual_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
+    @r2=x_sign, r5=y_sign
     ASR r3, r0, #31
     AND r2, r3, 0x01
     ASR r4, r1, #31
     AND r5, r4, 0x01
+    @r6 = checksign
     EOR r6, r2, r5
+    @r7=check1
     AND r7, r6, r2
-    MVN r8, r6
+    @MVN r8, r6
+    NEG r3, r6
+    ADD, r3, r3, #1
+    ASR r4, r6, #31
+    AND r4, r4, 0x01
+    ASR r3, r3, #31
+    AND r3, r3, 0x01
+    EOR r8, r3, 0x01
     MVN r9, r1
     ADD r10, r0, r9
     ASR r11, r10, #31
