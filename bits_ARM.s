@@ -114,6 +114,7 @@ bitCount_ARM:
     
     @mask1 = r3
     ORR r3, r1, r2
+    
     LSL r4, r3, #16
     
     @mask2 = r5
@@ -150,7 +151,7 @@ bitCount_ARM:
     
     @update r0
     ASR r7, r6, #8
-    AND r7, r6, r7
+    ADD r7, r6, r7
     MOV r8, 0x3F
     AND r0, r7, r8
     
