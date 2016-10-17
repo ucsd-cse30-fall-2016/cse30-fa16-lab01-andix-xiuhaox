@@ -343,10 +343,10 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- unsigned exp = uf >> 23 & oxFF;
+ unsigned exp = uf >> 23 & 0xFF;
  unsigned frac = uf << 9;
  //return argument if it's NaN value
- if((exp == oxFF) & (frac != 0)) {
+ if((exp == 0xFF) & (frac != 0)) {
   return uf;
  }
  return uf ^ 0x80000000;
