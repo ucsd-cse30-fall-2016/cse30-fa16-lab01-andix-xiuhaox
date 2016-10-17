@@ -77,7 +77,7 @@ logicalShift_ARM:
     push {r4-r11, ip, lr}
     
     LSR r2, r0, r1
-    LSL r3, #1, #31
+    MOV r3, 0x80000000
     AND r4, r0, r3
     LSR r5, r4, r1
     LSL r6, r5, #1
