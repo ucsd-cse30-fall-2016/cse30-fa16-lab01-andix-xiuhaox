@@ -3,6 +3,7 @@
 
 .text
 
+@bitAnd_ARM
 .align 8
 .global bitAnd_ARM
 .func bitAnd_ARM, bitAnd_ARM
@@ -15,6 +16,7 @@ bitAnd_ARM:
     @ YOUR CODE GOES HERE 
     @-----------------------
     
+    @r0=x, r1=n
     MVN r0, r0
     MVN r1, r1
     ORR r2, r0, r1
@@ -34,7 +36,7 @@ bitAnd_ARM:
 .endfunc
 
 
-
+@getByte_ARM
 .global getByte_ARM
 .func getByte_ARM, getByte_ARM
 .type getByte_ARM, %function
@@ -46,6 +48,7 @@ getByte_ARM:
     @ YOUR CODE GOES HERE 
     @-----------------------
     
+    @r0=x, r1=n
     LSL r1, r1, #3
     ASR r0, r0, r1
     AND r0, r0, 0xFF
@@ -69,6 +72,7 @@ getByte_ARM:
 @ negate_ARM
 @ isLessOrEqual_ARM
 
+@logicalShift_ARM
 .global logicalShift_ARM
 .func logicalShift_ARM, logicalShift_ARM
 .type logicalShift_ARM, %function
@@ -79,8 +83,12 @@ logicalShift_ARM:
     
     @r0 = x, r1 = n
     ASR r2, r0, r1
+    
+    @make mask
     MOV r3, #1
     LSL r3, r3, #31 
+    
+    @shift
     AND r4, r0, r3
     ASR r5, r4, r1
     LSL r6, r5, #1
@@ -92,6 +100,7 @@ logicalShift_ARM:
     BX lr
 .endfunc
 
+@bitCount_ARM
 .global bitCount_ARM
 .func bitCount_ARM, bitCount_ARM
 .type bitCount_ARM, %function
@@ -124,6 +133,7 @@ bitCount_ARM:
     AND r8, r7, r5
     ADD r6, r6, r8
     
+    @update sum
     ASR r9, r6, #16
     ADD r6, r6, r9
    
@@ -150,6 +160,7 @@ bitCount_ARM:
     BX lr
 .endfunc
 
+@fitsBits_ARM
 .global fitsBits_ARM
 .func fitsBits_ARM, fitsBits_ARM
 .type fitsBits_ARM, %function
@@ -157,6 +168,7 @@ bitCount_ARM:
 fitsBits_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
+    
     @r2 = mask
     ASR r2, r0, #31
     MVN r3, r0
@@ -205,13 +217,16 @@ negate_ARM:
 isLessOrEqual_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
+    
     @r2=x_sign, r5=y_sign
     ASR r3, r0, #31
     AND r2, r3, 0x01
     ASR r4, r1, #31
     AND r5, r4, 0x01
+    
     @r6 = checksign
     EOR r6, r2, r5
+    
     @r7=check1
     AND r7, r6, r2
     
