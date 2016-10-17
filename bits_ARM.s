@@ -96,17 +96,7 @@ logicalShift_ARM:
 bitCount_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-       // Mask 1 encompasses the 2 least significant bytes
-        int mask1 = 0x11 | (0x11 << 8);
-        int mask2 = mask1 | (mask1 << 16);
-        int sum = x & mask2;
-        sum = sum + ((x >> 1) & mask2);
-        sum = sum + ((x >> 2) & mask2);
-        sum = sum + ((x >> 3) & mask2);
-        sum = sum + (sum >> 16);
-        mask1 = 0xF | (0xF << 8);
-        sum = (sum & mask1) + ((sum >> 4) & mask1);
-        return((sum + (sum >> 8)) & 0x3F);
+       
     MOV r1, 0x11
     LSL r2, r1, 8
     //mask1 = r3
