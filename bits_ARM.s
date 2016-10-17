@@ -133,8 +133,8 @@ bitCount_ARM:
     
     LSR r15, r6, #8
     AND r15, r6, r15
-    MOV r16, #0x3F
-    AND r0, r15, r16
+    MOV r14, #0x3F
+    AND r0, r15, r14
     
     pop {r4-r11, ip, lr}
 
@@ -157,7 +157,7 @@ fitsBits_ARM:
     ADD r7, r6, r4
     MVN r8, #0
     ADD r9, r1, r8
-    MVN r0, r9,
+    MVN r0, r9
     
     
     
