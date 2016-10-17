@@ -171,7 +171,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return (~(~x | ~y));
+  return (~(~x | ~y)); // use the de morgan's law
 }
 /* 
  * getByte - Extract byte n from word x
@@ -182,7 +182,7 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-  return (0xFF & (x >> (n << 3)));
+  return (0xFF & (x >> (n << 3))); // 1 byte = 8 bit extract with &0xFF
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
@@ -193,7 +193,8 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
+  int mask = 1 << 31 // 10000.....
+  return (((x & mask) >> n) << 1) ^ (x >> n); // get the msb
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -203,34 +204,17 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-       // Mask 1 encompasses the 2 least significant bytes
-        int mask1 = 0x11 | (0x11 << 8);
-
-        // Mask 2 encompasses the final bytes
-        int mask2 = mask1 | (mask1 << 16);
-
-        // Sum will hold the number of 1 bits in the bit string
-        // Computes the number of 1 bits within the first four bits
+        int mask1 = (0x11 << 8) | 0x11; // Mask 1 is the 2 lsb
+        int mask2 = (mask1 << 16) | mask1;// Mask 2 is the final bytes
         int sum = x & mask2;
+	// Sum hold the number of 1 bits in the bit string
         sum = sum + ((x >> 1) & mask2);
         sum = sum + ((x >> 2) & mask2);
         sum = sum + ((x >> 3) & mask2);
-
-        // At this point, sum represents the number of 1 bits within the first 4 bits.
-        // in addition to extraneous bits beyond the first four bits.
-        // As the binary position of these values do not represent their appropriate value in relation to the sum, they must be stripped.
-
-        // Adjusts for overestimated sum value due to addition of 1 bits beyond first four bits.
         sum = sum + (sum >> 16);
-
-        // Used to preserve current sum, and continue to mask 1 bits in the next byte.
+        //continue to mask 1 bits in the next byte.
         mask1 = 0xF | (0xF << 8);
-
-        // Alternates the preserved bits of sum and adds alternating 4 bits together.
         sum = (sum & mask1) + ((sum >> 4) & mask1);
-
-        // Shift sum value 1 byte and implement mask to limit resulting sum to 6 bits
-        // Maximum representation of 6 bits, or a decimal value of 32, the word size for this problem set.
         return((sum + (sum >> 8)) & 0x3F);
 }
 /* 
@@ -241,8 +225,8 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
- int negation = ~x + 1;
- return((((x >> 31) & 0x01) | ((negation >> 31) & 0x01)) ^ 0x01);
+ int negationX = ~x + 1;//compute the negation of x.
+ return((((x >> 31) & 0x01) | (0x01 & (negationX >> 31))) ^ 0x01);//if x is 0 return 1 otherwise return 0.
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -251,7 +235,7 @@ int bang(int x) {
  *   Rating: 1
  */
 int tmin(void) {
-  return (0x80 << 24);
+  return (0x80 << 24);// the minmum two's complement integer 
 }
 /* 
  * fitsBits - return 1 if x can be represented as an 
@@ -263,8 +247,8 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  int mask = x >> 31;
-  return !(((~x & mask) + (x & ~mask)) >> (n + ~0));
+  int mask = x >> 31;// create a mask and get the sign of x
+  return !(((x & ~mask) + (~x & mask)) >> (n + ~0)); //see if it can be represented as n-bit
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
@@ -275,17 +259,12 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    // Something is needed to account for x >> n if positive and x >> n + 1 if negative
-
-	// Subtract 1 from 2^n
 	// This accounts for the need to + 1
 	int mask = (1 << n) + ~0;
-
 	// Use & operator on mask and sign bit of x 
-	int equalizer = (x >> 31) & mask;
-
-	// Adds 1 if x was originally negative
-	// Adds 0 if x was originally positive
+	int equalizer = mask & (x >> 31);
+	// Add 1 if x was negative
+	// Add 0 if x was positive
 	return (x + equalizer) >> n;
 }
 /* 
@@ -298,7 +277,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return ~x + 1;
+  return ~x + 1;//return the negate
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
@@ -308,7 +287,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return !((x >> 31) | !x);
+  return !((x >> 31) | !x); //return 1 if x is positive
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -318,11 +297,11 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int x_sign=(x>>31) & 0x01;				//declaration
- int y_sign=(y>>31) & 0x01;				//declaration
- int checksign = x_sign ^ y_sign;		//check same sign(0) or differ sign(1)
- int check1 = checksign & x_sign;		//when differ sign, x_sign is 1, alway x is less
- int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);		//when same sign and x is less or equal, x-y-1's sign bit is 1
+ int x_sign=(x>>31) & 0x01; //get the sign of x
+ int y_sign=(y>>31) & 0x01; //get the sign of y	
+ int checksign = x_sign ^ y_sign; //see if they have the same sign
+ int check1 = checksign & x_sign;//if differ sign, x_sign is 1, return 1.
+ int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);//when same sign and x is less or equal, see x-y-1's
  return (check0 | check1);
 }
 /*
@@ -333,17 +312,17 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-  int bitsNumber=0;  
-        //binary search process  
-        bitsNumber=(!!(x>>16))<<4;  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+8)))<<3);  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+4)))<<2);  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+2)))<<1);  
-        bitsNumber=bitsNumber+(!!(x>>(bitsNumber+1)));  
-        //for non zero bitsNumber, it should add 0  
-        //for zero bitsNumber, it should subtract 1  
-        bitsNumber=bitsNumber+(!!bitsNumber)+(~0)+(!(1^x));  
-        return bitsNumber;  
+	//binary search 
+    int bitsNum=0;   
+        bitsNum=(!!(x>>16))<<4;  
+        bitsNum=bitsNum+((!!(x>>(bitsNum+8)))<<3);  
+        bitsNum=bitsNum+((!!(x>>(bitsNum+4)))<<2);  
+        bitsNum=bitsNum+((!!(x>>(bitsNum+2)))<<1);  
+        bitsNum=bitsNum+(!!(x>>(bitsNum+1)));  
+        //for non zero bitsNumber, it adds 0  
+        //for zero bitsNumber, it subtracts 1  
+        bitsNum=bitsNum+(!!bitsNum)+(~0)+(!(1^x));  
+        return bitsNum;  
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
@@ -436,20 +415,23 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
- unsigned exp = (uf >> 23) & 0xFF;
- unsigned frac = uf << 9;
- unsigned sign = uf >> 31 << 31;
- unsigned expOne = 1 << 23; //1 more in exp
+ unsigned expn = (uf >> 23) & 0xFF;
+ unsigned sign = uf & 0x80000000;
+ unsigned frac = uf & 0x007FFFFF;
  //return argument if it's NaN value
- if((exp == 0xFF) & (frac != 0)) {
+ if((expn == 255 || (expn == 0 && frac == 0)){
   return uf;
  }
- if(exp == 0) {
-  return ((uf << 1) + sign);
+ if(expn) {
+	 expn++;
+ }else if (frac == 0x7FFFFF) {
+	 frac--;
+	 expn++;
+ }else{
+	 frac <<=1;
  }
- else {
-  exp = exp + expOne;
- }
- return (sign|exp|frac);
-}
+    return (sign) |(expn<<23) |(frac);
+    }
+    
+ 
 
