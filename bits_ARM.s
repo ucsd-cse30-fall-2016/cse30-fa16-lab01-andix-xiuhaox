@@ -1,3 +1,4 @@
+@<Andi Wang A92122705 Xiuhao Wang A91082832>
 .syntax unified
 
 .text
@@ -101,12 +102,15 @@ bitCount_ARM:
        
     MOV r1, 0x11
     LSL r2, r1, 8
-    //mask1 = r3
+    
+    @mask1 = r3
     ORR r3, r1, r2
     LSL r4, r3, #16
-    //mask2 = r5
+    
+    @mask2 = r5
     ORR r5, r3, r4
-    //sum = r6
+    
+    @sum = r6
     AND r6, r0, r5
     ASR r7, r0, #1
     AND r8, r7, r5
@@ -123,20 +127,22 @@ bitCount_ARM:
     ASR r9, r6, #16
     ADD r6, r6, r9
    
-    //update mask1
-    MOV r10, 0xF
-    LSL r11, r10, #8
-    ORR r3, r10, r11
+    @update mask1
+    MOV r7, 0xF
+    LSL r8, r7, #8
+    ORR r3, r7, r8
     
-    AND r12, r6, r3
-    ASR r13, r6, #4
-    AND r14, r13, r3
-    ADD r6, r12, r14
+    @update sum
+    AND r7, r6, r3
+    ASR r8, r6, #4
+    AND r8, r8, r3
+    ADD r6, r7, r8
     
-    ASR r15, r6, #8
-    AND r15, r6, r15
-    MOV r14, 0x3F
-    AND r0, r15, r14
+    @update r0
+    ASR r7, r6, #8
+    AND r7, r6, r7
+    MOV r8, 0x3F
+    AND r0, r7, r8
     
     pop {r4-r11, ip, lr}
 
@@ -185,8 +191,7 @@ fitsBits_ARM:
 negate_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    MVN r0, r0
-    ADD r0, r0, #1
+    NEG r0, r0
     pop {r4-r11, ip, lr}
 
     @ ARM equivalent of return
