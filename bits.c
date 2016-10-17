@@ -361,7 +361,54 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return ;
+  int tx = x;
+	unsigned result = 0; //= x & (1<<31);
+	//b will be the sign bit with 31 times left shifted.
+	int b = x&0x80000000;
+	int cc = 0x7f;
+	int qtx;
+	int lastbit;
+	int mask;
+	int f,f1,f2,g,h,i,rr,q,lbx;
+	if(x==0) return 0; //special case 1 : x is 0.
+	if(x == 0x80000000) { //special case 2 : x is tmin. we can't negate this value.
+		return 0xcf000000;
+	}
+	result = result | b; // mark sign bit.
+	if(b) {
+		tx = -x; // let's consider only positive value.
+	}
+	qtx = tx;
+	while(qtx/=2) { // get E value.
+		cc=cc+1;
+	}
+	//cc will be Exp value.
+	lastbit = cc-0x7f; //last bit is E value.
+	mask = (1<<lastbit) - 1;
+	//get other bit under 'lastbit'.
+	q = (mask & tx);
+	lbx = 23-lastbit;
+	if(lastbit<=23) {
+		//less than 24 bits remain, then, M is just q<<lbx.
+		result = result + (q<<lbx);
+	} else {
+		f = -lbx;
+		f1 = f-1;
+		f2 = 1<<f1;
+		g = q & (f2-1);
+		h = q & (1<<(f));
+		i = q & (f2);
+		rr = q >> (f);
+		//rounding.
+		//g : check under (lastbit-25) bit. if g is non-zero, there is a bit under the (lastbit-25) bit.
+		//h : check (lastbit-23) bit. if h is non-zero, even-rounding is possible.
+		//i : check (lastbit-24) bit. it's essential for round-up.
+		rr = rr + (i && (g || h));	
+		result = result | rr;
+	}
+	//add Exp bits.
+	result = result + (cc<<23);
+	return result;
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
