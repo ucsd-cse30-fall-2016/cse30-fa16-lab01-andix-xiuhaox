@@ -47,7 +47,7 @@ getByte_ARM:
     
     LSL r0, r0, #3
     LSR r1, r1, r0
-    AND r0, r0, oxFF
+    AND r0, r0, 0xFF
     
     @ (your code)
     @ put your return value in r0 here:
@@ -96,134 +96,55 @@ logicalShift_ARM:
 bitCount_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    AND r1, r0, #1
-    ADD r2, r1, #0
+       // Mask 1 encompasses the 2 least significant bytes
+        int mask1 = 0x11 | (0x11 << 8);
+        int mask2 = mask1 | (mask1 << 16);
+        int sum = x & mask2;
+        sum = sum + ((x >> 1) & mask2);
+        sum = sum + ((x >> 2) & mask2);
+        sum = sum + ((x >> 3) & mask2);
+        sum = sum + (sum >> 16);
+        mask1 = 0xF | (0xF << 8);
+        sum = (sum & mask1) + ((sum >> 4) & mask1);
+        return((sum + (sum >> 8)) & 0x3F);
+    MOV r1, 0x11
+    LSL r2, r1, 8
+    //mask1 = r3
+    ORR r3, r1, r2
+    LSL r4, r3, #16
+    //mask2 = r5
+    ORR r5, r3, r4
+    //sum = r6
+    AND r6, r0, r5
+    LSR r7, r0, #1
+    AND r8, r7, r5
+    ADD r6, r6, r8
     
-    LSR r3, r0, #1
-    AND r4, r3, #1
-    ADD r2, r2, r4
+    LSR r7, r0, #2
+    AND r8, r7, r5
+    ADD r6, r6, r8
     
-    LSR r3, r0, #2
-    AND r4, r3, #1
-    ADD r2, r2, r4
+    LSR r7, r0, #3
+    AND r8, r7, r5
+    ADD r6, r6, r8
     
-    LSR r3, r0, #3
-    AND r4, r3, #1
-    ADD r2, r2, r4
+    LSR r9, r6, #16
+    ADD r6, r6, r9
+   
+    //update mask1
+    MOV r10, 0xF
+    LSL r11, r10, #8
+    ORR r3, r10, r11
     
-    LSR r3, r0, #4
-    AND r4, r3, #1
-    ADD r2, r2, r4
+    AND r12, r6, r3
+    LSR r13, r6, #4
+    AND r14, r13, r3
+    ADD r6, r12, r14
     
-    LSR r3, r0, #5
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #6
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #7
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #8
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #9
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #10
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #11
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #12
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #13
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #14
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #15
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #16
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #17
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #18
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #19
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #20
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #21
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #22
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #23
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #24
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #25
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #26
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #27
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #28
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #29
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #30
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    LSR r3, r0, #31
-    AND r4, r3, #1
-    ADD r2, r2, r4
-    
-    MOV r0, r2
+    LSR r15, r6, #8
+    AND r16, r6, r15
+    MOV r17, 0x3F
+    AND r0, r16, r17
     
     pop {r4-r11, ip, lr}
 
