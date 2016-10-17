@@ -251,6 +251,30 @@ assert(ilog2(4)==test_ilog2(4));
 assert(ilog2(7)==test_ilog2(7));
 assert(ilog2(2)==test_ilog2(2));
 printf("Passed Test Cases for ilog2\n");
+
+//Test Cases for float_neg 
+
+assert(float_neg(16)==test_float_neg(16)); 
+assert(float_neg(4)==test_float_neg(4));
+assert(float_neg(7)==test_float_neg(7));
+assert(float_neg(2)==test_float_neg(2));
+printf("Passed Test Cases for float_neg\n");
+  
+//Test Cases for float_i2f 
+
+assert(float_i2f(16)==test_float_i2f(16)); 
+assert(float_i2f(4)==test_float_i2f(4));
+assert(float_i2f(7)==test_float_i2f(7));
+assert(float_i2f(2)==test_float_i2f(2));
+printf("Passed Test Cases for float_i2f\n");
+  
+//Test Cases for float_twice 
+
+assert(float_twice(16)==test_float_twice(16)); 
+assert(float_twice(4)==test_float_twice(4));
+assert(float_twice(7)==test_float_twice(7));
+assert(float_twice(2)==test_float_twice(2));
+printf("Passed Test Cases for float_twice\n");
   
 
 
