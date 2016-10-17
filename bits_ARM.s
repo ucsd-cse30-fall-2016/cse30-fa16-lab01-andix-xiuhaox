@@ -45,8 +45,8 @@ getByte_ARM:
     @ YOUR CODE GOES HERE 
     @-----------------------
     
-    LSL r0, r0, #3
-    LSR r1, r1, r0
+    LSL r1, r1, #3
+    ASR r0, r0, r1
     AND r0, r0, 0xFF
     
     @ (your code)
