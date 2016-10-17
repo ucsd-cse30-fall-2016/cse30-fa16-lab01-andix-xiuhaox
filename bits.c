@@ -346,7 +346,7 @@ unsigned float_neg(unsigned uf) {
  unsigned exp = uf >> 23 & oxFF;
  unsigned frac = uf << 9;
  //return argument if it's NaN value
- if(exp == oxFF & frac != 0) {
+ if((exp == oxFF) & (frac != 0)) {
   return uf;
  }
  return uf ^ 0x80000000;
@@ -380,7 +380,7 @@ unsigned float_twice(unsigned uf) {
  unsigned sign = uf >> 31 << 31;
  expOne = 1 << 23; //1 more in exp
  //return argument if it's NaN value
- if(exp == oxFF & frac != 0) {
+ if((exp == oxFF) & (frac != 0)) {
   return uf;
  }
  if(exp == 0) {
