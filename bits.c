@@ -389,7 +389,6 @@ unsigned float_twice(unsigned uf) {
  else {
   exp = exp + expOne;
  }
- 
-  return sign|exp|frac;
+ return sign|exp|frac;
 }
 
