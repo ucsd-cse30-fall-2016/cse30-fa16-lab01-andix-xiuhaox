@@ -193,7 +193,7 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  int mask = 1 << 31 // 10000.....
+  int mask = 1 << 31; // 10000.....
   return (((x & mask) >> n) << 1) ^ (x >> n); // get the msb
 }
 /*
@@ -419,7 +419,7 @@ unsigned float_twice(unsigned uf) {
  unsigned sign = uf & 0x80000000;
  unsigned frac = uf & 0x007FFFFF;
  //return argument if it's NaN value
- if((expn == 255 || (expn == 0 && frac == 0)){
+ if((expn == 255 || (expn == 0 && frac == 0))){
   return uf;
  }
  if(expn) {
