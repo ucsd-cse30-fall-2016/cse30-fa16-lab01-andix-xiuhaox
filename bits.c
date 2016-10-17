@@ -299,10 +299,10 @@ int isPositive(int x) {
 int isLessOrEqual(int x, int y) {
  int x_sign=(x>>31) & 0x01; //get the sign of x
  int y_sign=(y>>31) & 0x01; //get the sign of y	
- int checksign = x_sign ^ y_sign; //see if they have the same sign
- int check1 = checksign & x_sign;//if differ sign, x_sign is 1, return 1.
- int check0 = !checksign & (((x + ~y)>> 31 ) & 0x01);//when same sign and x is less or equal, see x-y-1's
- return (check0 | check1);
+ int sign = x_sign ^ y_sign; //see if they have the same sign
+ int sign1 = sign & x_sign;//if differ sign, x_sign is 1, return 1.
+ int sign0 = !sign & (((x + ~y)>> 31 ) & 0x01);//when same sign and x is less or equal, see x-y-1's
+ return (sign0 | sign1);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
@@ -336,13 +336,12 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- unsigned exp = uf >> 23 & 0xFF;
+ unsigned expn = uf >> 23 & 0xFF;
  unsigned frac = uf << 9;
- //return argument if it's NaN value
- if((exp == 0xFF) & (frac != 0)) {
+ if((frac != 0)&(expn == 0xFF)) {//return if it's nan
   return uf;
  }
- return uf ^ 0x80000000;
+ return uf ^ 0x80000000;//else return
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
@@ -354,54 +353,35 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  int tx = x;
-	unsigned result = 0; //= x & (1<<31);
-	//b will be the sign bit with 31 times left shifted.
-	int b = x&0x80000000;
-	int cc = 0x7f;
-	int qtx;
-	int lastbit;
-	int mask;
-	int f,f1,f2,g,h,i,rr,q,lbx;
-	if(x==0) return 0; //special case 1 : x is 0.
-	if(x == 0x80000000) { //special case 2 : x is tmin. we can't negate this value.
-		return 0xcf000000;
-	}
-	result = result | b; // mark sign bit.
-	if(b) {
-		tx = -x; // let's consider only positive value.
-	}
-	qtx = tx;
-	while(qtx/=2) { // get E value.
-		cc=cc+1;
-	}
-	//cc will be Exp value.
-	lastbit = cc-0x7f; //last bit is E value.
-	mask = (1<<lastbit) - 1;
-	//get other bit under 'lastbit'.
-	q = (mask & tx);
-	lbx = 23-lastbit;
-	if(lastbit<=23) {
-		//less than 24 bits remain, then, M is just q<<lbx.
-		result = result + (q<<lbx);
-	} else {
-		f = -lbx;
-		f1 = f-1;
-		f2 = 1<<f1;
-		g = q & (f2-1);
-		h = q & (1<<(f));
-		i = q & (f2);
-		rr = q >> (f);
-		//rounding.
-		//g : check under (lastbit-25) bit. if g is non-zero, there is a bit under the (lastbit-25) bit.
-		//h : check (lastbit-23) bit. if h is non-zero, even-rounding is possible.
-		//i : check (lastbit-24) bit. it's essential for round-up.
-		rr = rr + (i && (g || h));	
-		result = result | rr;
-	}
-	//add Exp bits.
-	result = result + (cc<<23);
-	return result;
+  	unsigned shiftL=0;  
+        unsigned afterS, tmp, flag;  
+        unsigned absX=x;  
+        unsigned sign=0;  
+        //special case  
+    if (x==0) return 0;  
+    //if x < 0, sign = 1000...,abs_x = -x  
+    if (x<0)  
+    {  
+        sign=0x80000000;  
+        absX=-x;  
+    }  
+        afterS=absX;  
+        //count shift_left and after_shift  
+        while (1) //while true 
+        {  
+                tmp=afterS;  
+                afterS<<=1;  
+                shiftL++;  
+                if (tmp & 0x80000000) break;  
+        }  
+        if ((afterS & 0x01ff)>0x0100)  
+                flag=1;  
+    else if ((afterS & 0x03ff)==0x0300)  
+                flag=1;  
+    else  
+                flag=0;  
+  
+        return sign + (afterS>>9) + ((159-shiftL)<<23) + flag;  
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
@@ -415,22 +395,22 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
- unsigned expn = (uf >> 23) & 0xFF;
+ unsigned exp = (uf >> 23) & 0xFF;
  unsigned sign = uf & 0x80000000;
- unsigned frac = uf & 0x007FFFFF;
+ unsigned fra = uf & 0x007FFFFF;
  //return argument if it's NaN value
- if((expn == 255 || (expn == 0 && frac == 0))){
+ if((exp == 255 || (exp == 0 && fra == 0))){
   return uf;
  }
- if(expn) {
-	 expn++;
- }else if (frac == 0x7FFFFF) {
-	 frac--;
-	 expn++;
+ if(exp) {
+	 exp++;//increase exp
+ }else if (fra == 0x7FFFFF) {
+	 fra--;//decrease fra
+	 exp++;//increase exp
  }else{
-	 frac <<=1;
+	 fra <<=1;
  }
-    return (sign) |(expn<<23) |(frac);
+    return (sign) |(exp<<23) |(fra);
     }
     
  
