@@ -193,9 +193,9 @@ negate_ARM:
     BX lr
 .endfunc
 
-.global isLessOrEqual
-.func isLessOrEqual, isLessOrEqual
-.type isLessOrEqual, %function
+.global isLessOrEqual_ARM
+.func isLessOrEqual_ARM, isLessOrEqual_ARM
+.type isLessOrEqual_ARM, %function
 
 isLessOrEqual_ARM:
     @ Save caller's registers on the stack
