@@ -282,7 +282,19 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
+ // Something is needed to account for x >> n if positive and x >> n + 1 if negative
+
+	// Subtract 1 from 2^n
+	// This accounts for the need to + 1
+	int mask = (1 << n) + ~0;
+
+	// Use & operator on mask and sign bit of x 
+	int equalizer = (x >> 31) & mask;
+
+	// Adds 1 if x was originally negative
+	// Adds 0 if x was originally positive
+	return (x + equalizer) >> n;
+   // return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
 }
 /* 
  * negate - return -x 
