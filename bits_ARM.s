@@ -208,20 +208,23 @@ isLessOrEqual_ARM:
     @r7=check1
     AND r7, r6, r2
     @MVN r8, r6
+    
     NEG r3, r6
-    ADD, r3, r3, #1
+    ADD r3, r3, #1
     ASR r4, r6, #31
     AND r4, r4, 0x01
     ASR r3, r3, #31
     AND r3, r3, 0x01
+    ORR r3, r3, r4
     EOR r8, r3, 0x01
+    
     MVN r9, r1
     ADD r10, r0, r9
     ASR r11, r10, #31
     AND r12, r11, 0x01
-    AND r13, r8, r12
-    ORR r14, r13, r7
-    MOV r0, r14
+    AND r3, r8, r12
+    ORR r4, r3, r7
+    MOV r0, r4
     pop {r4-r11, ip, lr}
 
     @ ARM equivalent of return
