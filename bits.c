@@ -249,7 +249,7 @@ int bitCount(int x) {
  */
 int bang(int x) {
  int negation = ~x + 1;
- return((((x >> 31) & 0x01) | ((negation >> 31) & 0x01)) ^ 0x01);
+ return((((x >> 31) & 0x01) | ((negative >> 31) & 0x01)) ^ 0x01);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -282,19 +282,7 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
- // Something is needed to account for x >> n if positive and x >> n + 1 if negative
-
-	// Subtract 1 from 2^n
-	// This accounts for the need to + 1
-	int mask = (1 << n) + ~0;
-
-	// Use & operator on mask and sign bit of x 
-	int equalizer = (x >> 31) & mask;
-
-	// Adds 1 if x was originally negative
-	// Adds 0 if x was originally positive
-	return (x + equalizer) >> n;
-   // return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
+    return (x >> n) ^ (((x & (1 << 31)) >> n) << 1);
 }
 /* 
  * negate - return -x 
@@ -341,17 +329,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
- int bitsNumber=0;  
-        //binary search process  
-        bitsNumber=(!!(x>>16))<<4;  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+8)))<<3);  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+4)))<<2);  
-        bitsNumber=bitsNumber+((!!(x>>(bitsNumber+2)))<<1);  
-        bitsNumber=bitsNumber+(!!(x>>(bitsNumber+1)));  
-        //for non zero bitsNumber, it should add 0  
-        //for zero bitsNumber, it should subtract 1  
-        bitsNumber=bitsNumber+(!!bitsNumber)+(~0)+(!(1^x));  
-        return bitsNumber;  
+  return 2;
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
@@ -365,10 +343,10 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- unsigned exp = uf >> 23 & 0xFF;
+ unsigned exp = uf >> 23 & oxFF;
  unsigned frac = uf << 9;
- //return NaN if it's NaN value
- if(exp == 0xFF & frac != 0) {
+ //return argument if it's NaN value
+ if(exp == oxFF & frac != 0) {
   return uf;
  }
  return uf ^ 0x80000000;
@@ -397,6 +375,21 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+ unsigned exp = uf >> 23 & oxFF;
+ unsigned frac = uf << 9;
+ unsigned sign = uf >> 31 << 31;
+ expOne = 1 << 23; //1 more in exp
+ //return argument if it's NaN value
+ if(exp == oxFF & frac != 0) {
+  return uf;
+ }
+ if(exp == 0) {
+  return (uf << 1 + sign);
+ }
+ else {
+  exp = exp + expOne;
+ }
+ 
+  return sign|exp|frac;
 }
 
