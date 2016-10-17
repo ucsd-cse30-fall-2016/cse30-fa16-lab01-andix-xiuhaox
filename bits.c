@@ -203,42 +203,35 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-        int sum = 0;
-        int help = 1;
+       // Mask 1 encompasses the 2 least significant bytes
+        int mask1 = 0x11 | (0x11 << 8);
 
-        sum = sum + (x & help);
-        sum = sum + (x >> 1 & help);
-        sum = sum + (x >> 2 & help);
-        sum = sum + (x >> 3 & help);
-        sum = sum + (x >> 4 & help);
-        sum = sum + (x >> 5 & help);
-        sum = sum + (x >> 6 & help);
-        sum = sum + (x >> 7 & help);
-        sum = sum + (x >> 8 & help);
-        sum = sum + (x >> 9 & help);
-        sum = sum + (x >> 10 & help);
-        sum = sum + (x >> 11 & help);
-        sum = sum + (x >> 12 & help);
-        sum = sum + (x >> 13 & help);
-        sum = sum + (x >> 14 & help);
-        sum = sum + (x >> 15 & help);
-        sum = sum + (x >> 16 & help);
-        sum = sum + (x >> 17 & help);
-        sum = sum + (x >> 18 & help);
-        sum = sum + (x >> 19 & help);
-        sum = sum + (x >> 20 & help);
-        sum = sum + (x >> 21 & help);
-        sum = sum + (x >> 22 & help);
-        sum = sum + (x >> 23 & help);
-        sum = sum + (x >> 24 & help);
-        sum = sum + (x >> 25 & help);
-        sum = sum + (x >> 26 & help);
-        sum = sum + (x >> 27 & help);
-        sum = sum + (x >> 28 & help);
-        sum = sum + (x >> 29 & help);
-        sum = sum + (x >> 30 & help);
-        sum = sum + (x >> 31 & help);
-        return(sum);
+        // Mask 2 encompasses the final bytes
+        int mask2 = mask1 | (mask1 << 16);
+
+        // Sum will hold the number of 1 bits in the bit string
+        // Computes the number of 1 bits within the first four bits
+        int sum = x & mask2;
+        sum = sum + ((x >> 1) & mask2);
+        sum = sum + ((x >> 2) & mask2);
+        sum = sum + ((x >> 3) & mask2);
+
+        // At this point, sum represents the number of 1 bits within the first 4 bits.
+        // in addition to extraneous bits beyond the first four bits.
+        // As the binary position of these values do not represent their appropriate value in relation to the sum, they must be stripped.
+
+        // Adjusts for overestimated sum value due to addition of 1 bits beyond first four bits.
+        sum = sum + (sum >> 16);
+
+        // Used to preserve current sum, and continue to mask 1 bits in the next byte.
+        mask1 = 0xF | (0xF << 8);
+
+        // Alternates the preserved bits of sum and adds alternating 4 bits together.
+        sum = (sum & mask1) + ((sum >> 4) & mask1);
+
+        // Shift sum value 1 byte and implement mask to limit resulting sum to 6 bits
+        // Maximum representation of 6 bits, or a decimal value of 32, the word size for this problem set.
+        return((sum + (sum >> 8)) & 0x3F);
 }
 /* 
  * bang - Compute !x without using !
