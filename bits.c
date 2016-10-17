@@ -425,7 +425,7 @@ unsigned float_twice(unsigned uf) {
  unsigned exp = uf >> 23 & 0xFF;
  unsigned frac = uf << 9;
  unsigned sign = uf >> 31 << 31;
- expOne = 1 << 23; //1 more in exp
+ unsigned expOne = 1 << 23; //1 more in exp
  //return argument if it's NaN value
  if((exp == 0xFF) & (frac != 0)) {
   return uf;
