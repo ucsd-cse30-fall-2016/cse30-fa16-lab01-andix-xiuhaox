@@ -221,8 +221,8 @@ isLessOrEqual_ARM:
     MVN r9, r1
     ADD r10, r0, r9
     ASR r11, r10, #31
-    AND r12, r11, 0x01
-    AND r3, r8, r12
+    AND r11, r11, 0x01
+    AND r3, r8, r11
     ORR r4, r3, r7
     MOV r0, r4
     pop {r4-r11, ip, lr}
