@@ -76,10 +76,10 @@ logicalShift_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
     
-    LSR r2, r0, r1
+    ASR r2, r0, r1
     MOV r3, 0x80000000
     AND r4, r0, r3
-    LSR r5, r4, r1
+    ASR r5, r4, r1
     LSL r6, r5, #1
     EOR r0, r2, r6
     
@@ -106,19 +106,19 @@ bitCount_ARM:
     ORR r5, r3, r4
     //sum = r6
     AND r6, r0, r5
-    LSR r7, r0, #1
+    ASR r7, r0, #1
     AND r8, r7, r5
     ADD r6, r6, r8
     
-    LSR r7, r0, #2
+    ASR r7, r0, #2
     AND r8, r7, r5
     ADD r6, r6, r8
     
-    LSR r7, r0, #3
+    ASR r7, r0, #3
     AND r8, r7, r5
     ADD r6, r6, r8
     
-    LSR r9, r6, #16
+    ASR r9, r6, #16
     ADD r6, r6, r9
    
     //update mask1
@@ -127,11 +127,11 @@ bitCount_ARM:
     ORR r3, r10, r11
     
     AND r12, r6, r3
-    LSR r13, r6, #4
+    ASR r13, r6, #4
     AND r14, r13, r3
     ADD r6, r12, r14
     
-    LSR r15, r6, #8
+    ASR r15, r6, #8
     AND r15, r6, r15
     MOV r14, #0x3F
     AND r0, r15, r14
@@ -149,7 +149,7 @@ bitCount_ARM:
 fitsBits_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    LSR r2, r0, #31
+    ASR r2, r0, #31
     MVN r3, r0
     AND r4, r2, r3
     MVN r5, r2
@@ -188,16 +188,16 @@ negate_ARM:
 isLessOrEqual_ARM:
     @ Save caller's registers on the stack
     push {r4-r11, ip, lr}
-    LSR r3, r0, #31
+    ASR r3, r0, #31
     AND r2, r3, 0x01
-    LSR r4, r1, #31
+    ASR r4, r1, #31
     AND r5, r4, 0x01
     EOR r6, r2, r5
     AND r7, r6, r2
     MVN r8, r6
     MVN r9, r1
     ADD r10, r0, r9
-    LSR r11, r10, #31
+    ASR r11, r10, #31
     AND r12, r11, 0x01
     AND r13, r8, r12
     ORR r14, r13, r7
