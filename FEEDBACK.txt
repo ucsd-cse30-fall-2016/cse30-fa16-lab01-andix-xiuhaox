@@ -1,0 +1,11 @@
+Good commenting. Needs edge cases testing.
+
+Need to add tests cases for your functions, especially float (+/- infinity, NaN). Maybe you were relying on GradeScope
+feedback, but that shouldn't be the case. Also, make sure you understand how floats were input (unsigned). You were
+supposed to use f2u to ensure that what you were testing was actually the case you thought you were testing.
+
+Final C score for Performance	30
+Final C score for Correctness	27.33
+Final ARM Score	13.67
+Style Score	4.5
+Total Score	75.5
